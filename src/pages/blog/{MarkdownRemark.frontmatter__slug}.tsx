@@ -2,10 +2,10 @@ import * as React from "react"
 import { graphql } from "gatsby"
 import FaunaContext from "../../fauna-context"
 
-function LikeCount() {
+function LikeCount({ pathname }) {
   const data = React.useContext(FaunaContext)
   console.log({ data })
-  return <div>likes: {data && data[window.location.pathname]?.count}</div>
+  return <div>likes: {data && data[pathname]?.count}</div>
 }
 
 export default function BlogPost(props) {
@@ -27,7 +27,7 @@ export default function BlogPost(props) {
       >
         Increment!
       </button>
-      <LikeCount />
+      <LikeCount pathname={props.location.pathname} />
       <div
         dangerouslySetInnerHTML={{ __html: props.data.markdownRemark.html }}
       />
