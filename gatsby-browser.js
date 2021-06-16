@@ -8,7 +8,6 @@ const client = new faunadb.Client({
 })
 
 function Streamer({ children }) {
-  console.log({ children })
   const [data, setData] = React.useState({})
 
   React.useEffect(() => {
@@ -16,20 +15,19 @@ function Streamer({ children }) {
     var stream = client.stream
       .document(docRef)
       .on(`snapshot`, (data, event) => {
-        console.log(`snapshot`, { data, event })
+        // console.log(`snapshot`, { data, event })
         setData(data.data)
       })
       .on(`version`, (data, event) => {
-        console.log(`version`, { data, event }, data.document.data)
+        // console.log(`version`, { data, event }, data.document.data)
         setData(data.document.data)
       })
       .on(`history_rewrite`, (data, event) => {
-        console.log(`history_rewrite`, { data, event })
+        // console.log(`history_rewrite`, { data, event })
         // setData(data.data)
       })
-      .on(`error`, (data, event) => console.log({ data, event }))
+    // .on(`error`, (data, event) => console.log({ data, event }))
     stream.start()
-    console.log(stream)
   }, [])
 
   return <FaunaContext.Provider value={data}>{children}</FaunaContext.Provider>
